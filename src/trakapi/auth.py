@@ -1,8 +1,12 @@
+import logging
+
 from oauthlib.oauth2.rfc6749.clients.backend_application import \
     BackendApplicationClient
 from requests_oauthlib.oauth2_session import OAuth2Session
 
 from .settings import get_settings
+
+_log = logging.getLogger(__name__)
 
 
 def get_oauth_session():
@@ -19,6 +23,13 @@ def get_oauth_session():
         client_id=settings.client_id,
         client=BackendApplicationClient(settings.client_id)
     )
+
+    return fetch_token(session)
+
+
+def fetch_token(session):
+    _log.debug('Getting access token for %s', session)
+    settings = get_settings()
 
     session.fetch_token(settings.get_url('oauth2/token/'),
                         client_id=settings.client_id,
