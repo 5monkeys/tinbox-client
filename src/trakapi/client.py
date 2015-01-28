@@ -63,9 +63,10 @@ class Trak:
     def get(self, path, *args, **kw):
         return self.session.get(self.get_url(path), *args, **kw)
 
-    def create_ticket(self, sender_email, subject, body):
+    def create_ticket(self, sender_email, subject, body, sender_name=None):
         request = self.post('tickets/',
                             data={'sender_email': sender_email,
+                                  'sender_name': sender_name,
                                   'subject': subject,
                                   'body': body})
 
