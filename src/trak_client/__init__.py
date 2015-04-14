@@ -1,4 +1,7 @@
-VERSION = (0, 1, 0, 'beta', 2)
+import os
+import warnings
+
+VERSION = (0, 1, 0, 'beta', 3)
 
 
 def get_version(version=None):
@@ -26,4 +29,12 @@ def get_version(version=None):
 __version__ = get_version()
 
 
-from .client import Trak
+# Set by setup.py when fetching version before installation of dependencies.
+TRAK_CLIENT_VERSION_ONLY = os.environ.get('TRAK_CLIENT_VERSION_ONLY')
+
+if TRAK_CLIENT_VERSION_ONLY is None:
+    from .client import Trak
+else:
+    warnings.warn('Environment variable TRAK_CLIENT_VERSION_ONLY is set. '
+                  'trak_client.__init__ will not perfom any convenience '
+                  'imports.')

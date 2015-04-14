@@ -48,8 +48,6 @@ def renew_token(session=None):
     return renew_token_decorator
 
 
-
-
 class Trak:
     def __init__(self):
         self.session = get_oauth_session()
