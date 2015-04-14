@@ -1,4 +1,5 @@
 from functools import wraps
+import json
 import logging
 from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
 
@@ -47,6 +48,8 @@ def renew_token(session=None):
     return renew_token_decorator
 
 
+
+
 class Trak:
     def __init__(self):
         self.session = get_oauth_session()
@@ -57,18 +60,29 @@ class Trak:
 
     @renew_token()
     def post(self, path, *args, **kw):
+        default_headers = {}
+        default_headers.setdefault('content-type', 'application/json')
+
+        kw.setdefault('headers', default_headers)
+
         return self.session.post(self.get_url(path), *args, **kw)
 
     @renew_token()
     def get(self, path, *args, **kw):
         return self.session.get(self.get_url(path), *args, **kw)
 
-    def create_ticket(self, sender_email, subject, body, sender_name=None):
+    def create_ticket(self, sender_email, subject, body, sender_name=None,
+                      context=None):
+        data = {'sender_email': sender_email,
+                'sender_name': sender_name,
+                'subject': subject,
+                'body': body}
+
+        if context is not None:
+            data.update({'uuids': context})
+
         request = self.post('tickets/',
-                            data={'sender_email': sender_email,
-                                  'sender_name': sender_name,
-                                  'subject': subject,
-                                  'body': body})
+                            data=json.dumps(data))
 
         return request.json()
 
