@@ -18,10 +18,16 @@ def get_oauth_session():
 
     # TODO: Refactor to allow any OAuth2 client type, maybe let
     # implementations handle OAuth2Session init themselves?
+    credentials = {
+        'client_id': settings.client_id,
+        'client_secret': settings.client_secret
+    }
 
     session = OAuth2Session(
         client_id=settings.client_id,
-        client=BackendApplicationClient(settings.client_id)
+        client=BackendApplicationClient(settings.client_id),
+        auto_refresh_kwargs=credentials,
+        auto_refresh_url=settings.get_url('oauth2/token/')
     )
 
     return fetch_token(session)
