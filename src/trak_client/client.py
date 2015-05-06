@@ -36,7 +36,7 @@ class Trak:
                 'body': body}
 
         if context is not None:
-            data.update({'uuids': context})
+            data.update({'pks': context})
 
         request = self.post('tickets/',
                             data=json.dumps(data))
