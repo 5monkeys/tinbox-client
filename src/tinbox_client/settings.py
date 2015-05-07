@@ -8,7 +8,7 @@ _log = logging.getLogger(__name__)
 
 class Settings:
     """
-    Settings class for trak, handles loading and validation of settings.
+    Settings class for tinbox, handles loading and validation of settings.
 
     Uses self.__dict__ to store settings, providing instance-variable access
     to the settings. e.g. ``settings.client_id  # returns client id``.
@@ -23,7 +23,7 @@ class Settings:
                 missing.append(key)
 
         if missing:
-            raise ValueError('The field(s) %r are missing from your trak '
+            raise ValueError('The field(s) %r are missing from your tinbox '
                              'settings file.' % missing)
 
         self.__dict__ = settings_dict
@@ -39,10 +39,11 @@ class Settings:
 
 @lru_cache(maxsize=1)  # Cache the result of get_settings
 def get_settings():
-    settings_file = os.environ.get('TRAK_SETTINGS')
+    trak_settings_file = os.environ.get('TRAK_SETTINGS')
+    settings_file = os.environ.get('TINBOX_SETTINGS', trak_settings_file)
 
     if settings_file is None:
-        raise ValueError('TRAK_SETTINGS missing from environment, can\'t '
+        raise ValueError('TINBOX_SETTINGS missing from environment, can\'t '
                          'initialize.')
 
     return Settings.from_file(settings_file)

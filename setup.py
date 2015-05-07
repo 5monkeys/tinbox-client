@@ -4,7 +4,8 @@ import sys
 
 from setuptools import setup, find_packages
 
-name = 'trak_client'
+name = 'tinbox-client'
+package_name = name.replace('-', '_')
 
 
 # Add src dir to path
@@ -24,7 +25,7 @@ def get_version():
     version = {}
 
     # exec the version module
-    with open(os.path.join(src_abs, name, 'version.py')) as fp:
+    with open(os.path.join(src_abs, package_name, 'version.py')) as fp:
         exec(fp.read(), version)
 
     # Call the module function 'get_version'

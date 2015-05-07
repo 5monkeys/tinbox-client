@@ -1,15 +1,14 @@
 from functools import wraps
 import json
 import logging
-from oauthlib.oauth2.rfc6749.errors import TokenExpiredError
 
-from .auth import get_oauth_session, fetch_token
+from .auth import get_oauth_session
 from .settings import get_settings
 
 _log = logging.getLogger(__name__)
 
 
-class Trak:
+class Tinbox:
     def __init__(self):
         self.session = get_oauth_session()
         self.settings = get_settings()
