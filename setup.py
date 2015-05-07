@@ -1,16 +1,29 @@
 #!/usr/bin/env python
-import os
+from os import path
 import sys
 
 from setuptools import setup, find_packages
 
+from pkg_resources import resource_filename
+
 name = 'tinbox-client'
 package_name = name.replace('-', '_')
 
+here = path.dirname(path.abspath(__file__))
 
 # Add src dir to path
-src_abs = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'src')
+src_abs = path.join(here, 'src')
 sys.path.append(src_abs)
+
+
+# Get the long description from the relevant file
+long_description = None
+
+try:
+    with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
+        long_description = f.read()
+except Exception:
+    pass
 
 
 def get_version():
@@ -25,7 +38,7 @@ def get_version():
     version = {}
 
     # exec the version module
-    with open(os.path.join(src_abs, package_name, 'version.py')) as fp:
+    with open(resource_filename(package_name, 'version.py')) as fp:
         exec(fp.read(), version)
 
     # Call the module function 'get_version'
@@ -37,6 +50,8 @@ setup(
     version=get_version(),
     author='Joar Wandborg',
     author_email='joar@5monkeys.se',
+    description='Tinbox client library',
+    long_description=long_description,
     package_dir={'': 'src'},  # Our package root is './src/'.
     packages=find_packages(exclude=['_*']),
     install_requires=[
