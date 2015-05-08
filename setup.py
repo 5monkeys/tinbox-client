@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-from functools import partial
-import os
 import sys
 
 from os import path
+
+from pkg_resources import parse_requirements
 
 from setuptools import setup, find_packages
 
@@ -49,6 +49,10 @@ def get_version():
     return version['get_version']()
 
 
+def get_requirements(filename):
+    return [str(r) for r in parse_requirements(open(filename).read())]
+
+
 setup(
     name=name,
     version=get_version(),
@@ -60,7 +64,5 @@ setup(
     long_description=long_description,
     package_dir={'': package_path},  # Package lives in ./src
     packages=find_packages(package_path),
-    install_requires=[
-        'requests-oauthlib==0.4.2'
-    ]
+    install_requires=get_requirements('requirements.txt')
 )
