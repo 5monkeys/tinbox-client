@@ -1,4 +1,3 @@
-from functools import lru_cache
 import json
 import logging
 import os
@@ -36,8 +35,6 @@ class Settings:
         return cls(json.load(open(filename, 'r')))
 
 
-
-@lru_cache(maxsize=1)  # Cache the result of get_settings
 def get_settings():
     trak_settings_file = os.environ.get('TRAK_SETTINGS')
     settings_file = os.environ.get('TINBOX_SETTINGS', trak_settings_file)

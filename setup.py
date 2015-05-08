@@ -28,7 +28,7 @@ except Exception:
     pass
 
 
-def get_version() -> "version string":
+def get_version():
     """
     Get the version from a version module inside our package. This is
     necessary since we import our main modules in package/__init__.py,
