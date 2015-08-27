@@ -12,7 +12,7 @@ class Settings:
     Uses self.__dict__ to store settings, providing instance-variable access
     to the settings. e.g. ``settings.client_id  # returns client id``.
     """
-    required = ['base_url', 'client_id', 'client_secret', 'scope']
+    required = ['base_url', 'client_id', 'client_secret']
 
     def __init__(self, settings_dict):
         missing = []

@@ -40,6 +40,6 @@ def fetch_token(session):
     session.fetch_token(settings.get_url('oauth2/token/'),
                         client_id=settings.client_id,
                         client_secret=settings.client_secret,
-                        scope=settings.scope)
+                        scope=['read', 'write'])
 
     return session
