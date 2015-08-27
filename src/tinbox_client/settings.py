@@ -39,8 +39,11 @@ def get_settings():
     trak_settings_file = os.environ.get('TRAK_SETTINGS')
     settings_file = os.environ.get('TINBOX_SETTINGS', trak_settings_file)
 
-    if settings_file is None:
-        raise ValueError('TINBOX_SETTINGS missing from environment, can\'t '
-                         'initialize.')
-
-    return Settings.from_file(settings_file)
+    if settings_file:
+        return Settings.from_file(settings_file)
+    else:
+        return Settings({
+            'base_url': os.environ.get('TINBOX_API_URL'),
+            'client_id': os.environ.get('TINBOX_CLIENT_ID'),
+            'client_secret': os.environ.get('TINBOX_CLIENT_SECRET')
+        })
